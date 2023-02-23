@@ -2,6 +2,8 @@ package com.gustavotpdev.course.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gustavotpdev.course.entities.enums.OrderStatus;
@@ -12,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,13 +28,17 @@ public class Order implements Serializable {
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
-
+	
 	private Integer orderStatus;
 	
 	@ManyToOne // Pois Muito Order para 1 User
 	@JoinColumn(name = "client_id") // FK
 	private User client;
 
+	
+	@OneToMany(mappedBy="id.order")	//Pois id que tem o pedido no orderitem
+	private Set<OrderItem> items = new HashSet<>();
+	
 	public Order() {
 	}
 
@@ -75,6 +82,10 @@ public class Order implements Serializable {
 
 	public void setClient(User client) {
 		this.client = client;
+	}
+	
+	public Set<OrderItem> getItems(){
+		return items;
 	}
 
 	@Override
