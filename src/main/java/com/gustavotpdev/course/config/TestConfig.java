@@ -8,14 +8,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.gustavotpdev.course.entities.User;
-import com.gustavotpdev.course.repositories.UserRespository;
+import com.gustavotpdev.course.repositories.UserRepository;
 
 @Configuration
 @Profile("test")					//Executa automaticamente quando aplicacao iniciar
 public class TestConfig implements CommandLineRunner{
 	
 	@Autowired			 //proprio spring resolve dependencia e instancia auto
-	private UserRespository userRepository;
+	private UserRepository userRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
