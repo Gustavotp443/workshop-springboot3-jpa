@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,21 +14,24 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name= "tb_user")	//pois user é uma palavra reserve do BD H2
-public class User implements Serializable{
+@Table(name = "tb_user") // pois user é uma palavra reserve do BD H2
+public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String email;
 	private String phone;
 	private String password;
-	
-	@OneToMany(mappedBy="client")	//Um User para muitos Order, mapeado em order como client
+
+	// Nesse caso a associacao sera mostrado do lado do Order, se inverter vai ser
+	// do Order
+	@JsonIgnore // Para evitar o looping infinito da associação de mão dupla
+	@OneToMany(mappedBy = "client") // Um User para muitos Order, mapeado em order como client
 	private List<Order> orders = new ArrayList<>();
-	
+
 	public User() {
 	}
 
@@ -78,7 +83,7 @@ public class User implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public List<Order> getOrders() {
 		return orders;
 	}
@@ -108,8 +113,4 @@ public class User implements Serializable{
 		return true;
 	}
 
-	
-	
-	
-	
 }
