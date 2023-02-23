@@ -30,4 +30,19 @@ public class UserService {
 	public void delete(Long id) {
 		repository.deleteById(id);
 	}
+	
+	public User update(Long id, User obj) {
+		//Vai deixar um objeto apenas monitorado pelo JPA, melhor do que ter que instanciar trazendo o obj do BD
+		User entity = repository.getReferenceById(id);	
+		updateData(entity, obj);	
+		return repository.save(entity);
+	}
+
+	private void updateData(User entity, User obj) {
+		//EU APENAS RESTRINJO A ATT A ESSES CAMPOS
+		entity.setName(obj.getName());
+		entity.setEmail(obj.getEmail());
+		entity.setPhone(obj.getPhone());
+		
+	}
 }
