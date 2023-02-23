@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.gustavotpdev.course.entities.Category;
 import com.gustavotpdev.course.entities.Order;
 import com.gustavotpdev.course.entities.OrderItem;
+import com.gustavotpdev.course.entities.Payment;
 import com.gustavotpdev.course.entities.Product;
 import com.gustavotpdev.course.entities.User;
 import com.gustavotpdev.course.entities.enums.OrderStatus;
@@ -76,6 +77,10 @@ public class TestConfig implements CommandLineRunner{
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
 		
+		Payment pay1= new Payment(null, Instant.parse("2019-06-20T21:53:07Z"),o1 );
+		o1.setPayment(pay1);
+		
+		orderRepository.save(o1);
 		
 	}	//Agora tudo que eu colocar aqui vai ser executado quando a app iniciar
 	
